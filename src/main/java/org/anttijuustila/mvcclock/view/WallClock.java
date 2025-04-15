@@ -42,7 +42,7 @@ public class WallClock extends JPanel implements Flow.Subscriber<Long> {
 			true, TimeZone.LONG, Locale.getDefault()
 		), TitledBorder.CENTER, TitledBorder.TOP));
 		add(timeLabel, BorderLayout.WEST);
-		JButton closeButton = new JButton("X");
+		JButton closeButton = new JButton("⨂");
 		closeButton.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 		closeButton.setContentAreaFilled(false);
 		closeButton.setForeground(Color.RED);
