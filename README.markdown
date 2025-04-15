@@ -20,6 +20,9 @@ Tässä demossa katsotaan miten vastaava toiminnallisuus saadaan toteutettua kä
 * [Flow.Subscriber](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/concurrent/Flow.Subscriber.html) - joku sovelluksen komponentti joka **tilaa** julkaisijalta tätä dataa, sekä
 * [Flow.Subscription](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/concurrent/Flow.Subscription.html) -- **tilaus**, linkki tilaajan ja julkaisijan välillä.
 
+Konkreettisena julkaisijana demosovelluksessa toimii [SubmissionPublisher<T>](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/concurrent/SubmissionPublisher.html), joka toteuttaa `Flow.Publisher` -rajapinnan.
+
+
 ## Demon rakenne
 
 Demon rakenne on hyvin yksinkertainen:
@@ -31,15 +34,15 @@ Sovelluksen käynnistyessä se luo julkaisijan sekä yhden tilaajan, joka näytt
 
 Julkaisija (`ClockTickSource`) julkaisee tilaajille käytännössä yhtä kokonaislukua sekunnin välein: nykyinen kellonaika millisekunteina, käyttäen Javan `System.currentTimeMillis()` -metodia. Se palauttaa millisekunneissa erotuksen tämän hetken ja tammikuun 1. päivän 1970 välillä UTC-aikaa.
 
-Kukin tilaaja (`WallClock`) sitten tilattuaan julkaisijalta päivityksiä, näyttää kellonajan tilaajalle määritellyllä aikavyöhykkeellä.
+Kukin tilaaja (`WallClock`) sitten tilattuaan julkaisijalta päivityksiä, näyttää kellonajan sillä aikavyöhykkeellä joka tilaajalle annettiin.
 
-Painamalla + -nappia, voit valita listalta minkä aikavyöhykkeen aikaa haluaisit katsoa:
+Painamalla + -nappia, voit valita listalta minkä aikavyöhykkeen aikaa haluaisit katsoa ja antaa tilaajalle:
 
 ![Aikavyöhykkeen valinta](screenshot2.png)
 
-Valinnan jälkeen voit seurata ajan etenemistä myös tällä aikavyöhykkeellä, kuten näet esimerkiksi yltä kuvaruutukaappauksesta.
+Valinnan jälkeen voit seurata ajan etenemistä myös tällä aikavyöhykkeellä, kuten näet esimerkiksi yltä kuvaruutukaappauksista.
 
-Voit poistaa minkä tahansa aikavyöhykkeen kellonajan näkymästä, klikkaamalla sen yhteydessä näkyvää punaista rastia. Tällöin tilaaja peruu tilauksensa käyttäen tilaus -oliota.
+Voit poistaa minkä tahansa tilaajan eli aikavyöhykkeen kellonajan, klikkaamalla sen yhteydessä näkyvää punaista rastia. Tällöin tilaaja peruu tilauksensa käyttäen tilaus -oliota. Mikäli tilaajia ei enää ole (käyttöliittymä on plusnappia lukuunottamatta tyhjä), julkaisija lopettaa ajan etenemisen julkaisemisen. Jos käyttäjä lisää näkymään uuden aikavyöhykkeen (tilaajan), julkaisia aloittaa taas julkaisemisen.
 
 
 ## Kuka tämän teki?
